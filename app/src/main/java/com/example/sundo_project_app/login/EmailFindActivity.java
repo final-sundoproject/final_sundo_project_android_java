@@ -27,7 +27,7 @@ public class EmailFindActivity extends AppCompatActivity {
     private Button emailFindButton;
     private TextView emailResultTextView;
 
-    private static final String EMAIL_FIND_URL = "http://10.0.2.2:8000/api/companies/find-email";
+    private static final String EMAIL_FIND_URL = "http://172.30.1.94:8000/api/companies/find-email";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -13,6 +13,7 @@ public class Evaluation implements Serializable {
     private int scenery;
     private int averageRating;
     private long evaluationId;
+    private String priRegistrationDate;
 
     // Getters and Setters
     public String getTitle() {
@@ -56,4 +57,7 @@ public class Evaluation implements Serializable {
 
     public int getScenery (){return scenery;}
     public void setScenery(int scenery){this.scenery = scenery;}
+
+    public String getPriRegistrationDate (){return priRegistrationDate;}
+    public void setPriRegistrationDate(String priRegistrationDate){this.priRegistrationDate = priRegistrationDate;}
 }

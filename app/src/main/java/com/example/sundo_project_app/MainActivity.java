@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.example.sundo_project_app.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
-    ///
+
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final int SPLASH_DISPLAY_LENGTH = 2000;

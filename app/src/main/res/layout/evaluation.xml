@@ -30,7 +30,9 @@
             android:layout_height="200dp"
             android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/background2" />
+            android:src="@drawable/background2"
+            android:clickable="true"
+            android:focusable="true" />
 
         <View
             android:id="@+id/viewSeparator"

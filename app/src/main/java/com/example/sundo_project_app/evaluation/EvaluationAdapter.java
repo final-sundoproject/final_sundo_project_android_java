@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sundo_project_app.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.EvaluationViewHolder> {
 
@@ -41,8 +44,9 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Ev
                 .into(holder.arImage);
 
         holder.titleTextView.setText("평가명: " + evaluation.getTitle());
+        holder.averageRatingTextView.setText("등록일: " + getDateTime(evaluation.getPriRegistrationDate()));
         holder.registrantNameTextView.setText("등록자명: " + evaluation.getRegistrantName());
-        holder.averageRatingTextView.setText("평점: " + evaluation.getAverageRating());
+        holder.registDate.setText("평점: " + evaluation.getAverageRating());
 
 
         holder.itemView.setOnClickListener(v -> {
@@ -72,12 +76,24 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Ev
             notifyItemRemoved(position);
         }
     }
+    public String getDateTime(String dateTime) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            Date date = inputFormat.parse(dateTime);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return dateTime;
+        }
+    }
 
     static class EvaluationViewHolder extends RecyclerView.ViewHolder {
         ImageView arImage;
         TextView titleTextView;
         TextView registrantNameTextView;
         TextView averageRatingTextView;
+        TextView registDate;
 
         public EvaluationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +101,7 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Ev
             titleTextView = itemView.findViewById(R.id.textViewTitle);
             registrantNameTextView = itemView.findViewById(R.id.textViewRegistrantName);
             averageRatingTextView = itemView.findViewById(R.id.textViewAverage);
+            registDate = itemView.findViewById(R.id.textRegistDate);
         }
     }
 }
