@@ -93,7 +93,15 @@ public class MapActivity extends AppCompatActivity  {
         btnRedulated = findViewById(R.id.redulated);
         markers = new ArrayList<>();
         gpsMarkers = new ArrayList<>();
+        updateShowListButtonState();
+    }
 
+    private void updateShowListButtonState() {
+        if (markers.size() >= 1) {
+            btnShowList.setEnabled(true);
+        } else {
+            btnShowList.setEnabled(false);
+        }
     }
 
     private void initializeLocationServices() {
@@ -182,8 +190,11 @@ public class MapActivity extends AppCompatActivity  {
 
         btnShowList.setOnClickListener(v -> {
             Log.d("btnShowList", "평가입력 버튼 클릭됨");
-            Intent intent = new Intent(MapActivity.this, EvaluationActivity.class);
-            startActivity(intent);
+            if (markers.size() >= 1) {
+                showEvaluationPromptDialog(); // 모달 창을 띄우는 메서드 호출
+            } else {
+                Toast.makeText(MapActivity.this, "하나의 마커만 추가해 주세요.", Toast.LENGTH_SHORT).show();
+            }
         });
 
         findViewById(R.id.coordinateInput).setOnClickListener(v -> {
@@ -203,6 +214,20 @@ public class MapActivity extends AppCompatActivity  {
         coordinateSelectButton.setOnClickListener(v -> toggleMarkerMode());
         resetButton.setOnClickListener(v -> resetToInitialState());
         gpsButton.setOnClickListener(v -> startTrackingLocation());
+    }
+
+    private void showEvaluationPromptDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("평가 입력");
+        builder.setMessage("평가를 입력할 마크업을 선택해주세요.");
+
+        builder.setNegativeButton("확인", (dialog, which) -> {
+            dialog.dismiss();
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     }
 
     private void setupMapFragment() {
@@ -241,6 +266,7 @@ public class MapActivity extends AppCompatActivity  {
         });
 
         Toast.makeText(MapActivity.this, "Clicked Location: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
+        updateShowListButtonState();
     }
 
     private void showEvaluationDialog() {
@@ -335,6 +361,8 @@ public class MapActivity extends AppCompatActivity  {
         gpsButton.setText("GPS");
         stopLocationUpdates();
         isFollowingLocation = false;
+
+        updateShowListButtonState();
     }
 
     private void requestLocationPermissions() {

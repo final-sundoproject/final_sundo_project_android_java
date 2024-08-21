@@ -1,5 +1,6 @@
 package com.example.sundo_project_app.location;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,12 +8,10 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.sundo_project_app.R;
-import com.example.sundo_project_app.evaluation.EvaluationActivity;
 
 import org.json.JSONObject;
 
@@ -25,78 +24,77 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DdActivity extends AppCompatActivity {
+public class DdActivity extends Activity {
 
     private static final double MIN_LATITUDE = -90.0;
     private static final double MAX_LATITUDE = 90.0;
     private static final double MIN_LONGITUDE = -180.0;
     private static final double MAX_LONGITUDE = 180.0;
-    private EditText etlatitude;
-    private EditText etlongitude;
-    private Button btnSubmit;
-    private String projectId; // projectId를 클래스 변수로 변경
+    private String projectId;
     private String locationId;
-
-    private static final String TAG = "DdActivity";
-    private static final String SERVER_URL = "http://172.30.1.94:8000/location"; // 변경할 서버 URL
-
     private Serializable currentProject;
     private String registerName;
+
+    private static final String TAG = "DdActivity";
+    private static final String SERVER_URL = "http://10.0.2.2:8000/location";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_dd_input);
-
-        etlatitude = findViewById(R.id.et_latitude);
-        etlongitude = findViewById(R.id.et_longitude);
-        btnSubmit = findViewById(R.id.btn_submit);
-
-        // X 버튼을 눌렀을 때 창을 닫는 기능 추가
-        findViewById(R.id.btn_close).setOnClickListener(v -> finish());
+        setContentView(R.layout.dialog_dd_input); // 다이얼로그 레이아웃 설정
 
 
-        // Intent에서 위도, 경도, projectId 가져오기
+        // UI 요소 초기화
+        EditText etLatitude = findViewById(R.id.et_latitude);
+        EditText etLongitude = findViewById(R.id.et_longitude);
+        Button btnSubmit = findViewById(R.id.btn_submit);
+        TextView btnClose = findViewById(R.id.btn_close);
+
+        // Intent로부터 데이터 추출
         Intent intent = getIntent();
         double latitude = intent.getDoubleExtra("latitude", 0);
         double longitude = intent.getDoubleExtra("longitude", 0);
-        projectId = intent.getStringExtra("project_id"); // Intent에서 projectId를 가져옴
-
-        currentProject =  intent.getSerializableExtra("currentProject");
+        projectId = intent.getStringExtra("project_id");
+        currentProject = intent.getSerializableExtra("currentProject");
         registerName = intent.getStringExtra("registerName");
 
-        Log.d("currentProject: {}", String.valueOf(currentProject));
-        Log.d("registerName: {}", registerName);
+        // 데이터 로그 출력
+        Log.d(TAG, "currentProject: " + currentProject);
+        Log.d(TAG, "registerName: " + registerName);
 
+        // 입력 필드에 초기값 설정
+        etLatitude.setText(String.valueOf(latitude));
+        etLongitude.setText(String.valueOf(longitude));
 
-        etlatitude.setText(String.valueOf(latitude));
-        etlongitude.setText(String.valueOf(longitude));
+        // 닫기 버튼 클릭 리스너
+        btnClose.setOnClickListener(v -> finish());
 
-        btnSubmit.setOnClickListener(v -> handleSubmit());
+        // 제출 버튼 클릭 리스너
+        btnSubmit.setOnClickListener(v -> handleSubmit(etLatitude, etLongitude));
     }
 
-    private void handleSubmit() {
+    private void handleSubmit(EditText etLatitude, EditText etLongitude) {
         try {
-            double latitude = Double.parseDouble(etlatitude.getText().toString());
-            double longitude = Double.parseDouble(etlongitude.getText().toString());
+            double latitude = Double.parseDouble(etLatitude.getText().toString());
+            double longitude = Double.parseDouble(etLongitude.getText().toString());
 
-            // 입력값 검증
+            // 유효성 검사
             if (latitude < MIN_LATITUDE || latitude > MAX_LATITUDE) {
-                Toast.makeText(this, "위도는 " + MIN_LATITUDE + "와 " + MAX_LATITUDE + " 사이의 값만 입력할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                showToast("Latitude must be between " + MIN_LATITUDE + " and " + MAX_LATITUDE + ".");
                 return;
             }
 
             if (longitude < MIN_LONGITUDE || longitude > MAX_LONGITUDE) {
-                Toast.makeText(this, "경도는 " + MIN_LONGITUDE + "와 " + MAX_LONGITUDE + " 사이의 값만 입력할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                showToast("Longitude must be between " + MIN_LONGITUDE + " and " + MAX_LONGITUDE + ".");
                 return;
             }
 
-            // 서버로 전송할 데이터 생성
+            // JSON 데이터 생성
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("latitude", latitude);
             jsonObject.put("longitude", longitude);
+            jsonObject.put("registerName", registerName);
 
-            // projectId가 존재할 경우에만 포함
             if (projectId != null) {
                 jsonObject.put("projectId", projectId);
             }
@@ -105,10 +103,10 @@ public class DdActivity extends AppCompatActivity {
             sendCoordinates(jsonObject.toString());
 
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "숫자를 올바르게 입력해주세요.", Toast.LENGTH_SHORT).show();
+            showToast("Please enter valid numbers.");
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "오류가 발생했습니다: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Error: ", e);
+            showToast("An error occurred: " + e.getMessage());
         }
     }
 
@@ -117,14 +115,12 @@ public class DdActivity extends AppCompatActivity {
         Handler handler = new Handler(Looper.getMainLooper());
 
         Log.d(TAG, "jsonData: " + jsonData);
-        Log.d(TAG, "projectId: " + (projectId != null ? projectId : "null"));
 
         executor.execute(() -> {
             String result = null;
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
-                // URL에 projectId를 포함시키기
                 URL url = new URL(SERVER_URL + (projectId != null ? "/" + projectId : ""));
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
@@ -137,6 +133,7 @@ public class DdActivity extends AppCompatActivity {
                     os.write(input, 0, input.length);
                 }
 
+                // 서버 응답 처리
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -148,20 +145,19 @@ public class DdActivity extends AppCompatActivity {
                     String response = responseBuilder.toString();
                     Log.d(TAG, "Response from server: " + response);
 
-                    // 서버로부터 locationId 수신 (중복된 경우 "DUPLICATE"라는 문자열을 반환한다고 가정)
                     if ("DUPLICATE".equals(response)) {
-                        result = "입력하신 좌표는 이미 존재합니다.";
+                        result = "The coordinates you entered already exist.";
                     } else {
-                        result = "좌표가 성공적으로 전송되었습니다.";
-                        locationId = response; // 응답으로부터 locationId를 설정
+                        result = "Coordinates successfully submitted.";
+                        locationId = response;
                     }
                 } else {
-                    result = "서버 오류가 발생했습니다. 응답 코드: " + responseCode;
+                    result = "Server error occurred. Response code: " + responseCode;
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
-                result = "전송 중 오류가 발생했습니다: " + e.getMessage();
+                Log.e(TAG, "Error: ", e);
+                result = "An error occurred while sending data: " + e.getMessage();
             } finally {
                 if (reader != null) {
                     try {
@@ -175,27 +171,22 @@ public class DdActivity extends AppCompatActivity {
                 }
             }
 
-            String finalResult = result;
+            final String finalResult = result;
             handler.post(() -> {
-                Toast.makeText(DdActivity.this, finalResult, Toast.LENGTH_LONG).show();
+                showToast(finalResult);
                 if (locationId != null) {
                     Intent intent = new Intent(DdActivity.this, GeneratorActivity.class);
-
-                    Intent DdIntent = new Intent(DdActivity.this, EvaluationActivity.class);
                     intent.putExtra("locationId", locationId);
-                    DdIntent.putExtra("locationId",locationId);
-                    Log.d("locaitonId","locaitonId: "+locationId);
-
-                    intent.putExtra("locationId", locationId); // locationId를 전달
-                    intent.putExtra("currentProject",currentProject);
-                    intent.putExtra("registerName",registerName);
-                    Log.d("locationId","locationId: "+locationId);
-
+                    intent.putExtra("currentProject", currentProject);
+                    intent.putExtra("registerName", registerName);
                     startActivity(intent);
-
                 }
+                finish();
             });
         });
     }
-}
 
+    private void showToast(String message) {
+        Toast.makeText(DdActivity.this, message, Toast.LENGTH_LONG).show();
+    }
+}
