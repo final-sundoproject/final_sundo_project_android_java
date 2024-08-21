@@ -140,8 +140,8 @@ public class GeneratorActivity extends AppCompatActivity {
                     // Success - start EvaluationActivity with bundled data
                     runOnUiThread(() -> {
                         Toast.makeText(GeneratorActivity.this, generatorType + " 발전기가 선택되었습니다. 각도: " + directionAngle, Toast.LENGTH_SHORT).show();
-
                         startEvaluationActivity(generatorType, directionAngle, locationId, currentProject, registerName);
+                        finish();
                     });
                 } else {
                     runOnUiThread(() -> Toast.makeText(GeneratorActivity.this, "서버 오류 발생. 응답 코드: " + responseCode, Toast.LENGTH_SHORT).show());

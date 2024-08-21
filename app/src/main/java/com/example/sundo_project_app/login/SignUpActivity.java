@@ -28,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText businessNumberInput;
     private Button signUpButton;
 
-    private static final String SIGNUP_URL = "http://172.30.1.94:8000/api/companies/register";
+    private static final String SIGNUP_URL = "http://10.0.2.2:8000/api/companies/register";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -39,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView findEmailLink;
     private TextView findPasswordLink;
 
-    private static final String LOGIN_URL = "http://172.30.1.94:8000/api/companies/login";
-    private static final String VALIDATE_TOKEN_URL = "http://172.30.1.94:8000/api/validate-token";
+    private static final String LOGIN_URL = "http://10.0.2.2:8000/api/companies/login";
+    private static final String VALIDATE_TOKEN_URL = "http://10.0.2.2:8000/api/validate-token";
 
     private String companyName;
 

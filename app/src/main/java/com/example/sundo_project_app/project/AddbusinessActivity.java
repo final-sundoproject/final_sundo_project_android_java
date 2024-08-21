@@ -88,7 +88,7 @@ public class AddbusinessActivity extends toolBarActivity {
         recyclerView.setAdapter(projectAdapter);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.30.1.94:8000/") // 서버의 기본 URL (에뮬레이터에서는 localhost가 10.0.2.2로 매핑됨)
+                .baseUrl("http://10.0.2.2:8000/") // 서버의 기본 URL (에뮬레이터에서는 localhost가 10.0.2.2로 매핑됨)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
