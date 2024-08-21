@@ -18,10 +18,8 @@
         android:id="@+id/mandatoryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="2dp"
         android:text="(필수 기재 사항)"
+        android:textSize="14sp"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="14sp" />
-
+        android:layout_marginStart="10dp" />
 </LinearLayout>

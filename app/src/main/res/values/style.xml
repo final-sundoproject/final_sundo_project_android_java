@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 투명색 다이얼로그 테마 -->
     <style name="CustomGeneratorTheme" parent="Theme.AppCompat.Dialog">
         <!-- 다이얼로그의 기본 설정 -->
         <item name="android:windowMinWidthMajor">80%</item>
         <item name="android:windowMinWidthMinor">80%</item>
-        <item name="android:windowBackground">@drawable/logo</item>
+        <item name="android:windowBackground">@color/transparent</item> <!-- 배경을 투명색으로 설정 -->
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.5</item>
@@ -16,23 +17,7 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowBackground">@color/transparent</item> <!-- 배경을 투명색으로 설정 -->
     </style>
-
-    <style name="Theme.App.Modal" parent="Theme.AppCompat.Dialog">
-        <!-- 배경 투명도 조절 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowFrame">@android:color/transparent</item>
-        <!-- 모달 창의 크기 조절 -->
-        <item name="android:windowMinWidthMajor">280dp</item>
-        <item name="android:windowMinWidthMinor">280dp</item>
-    </style>
-
-    <!-- Dialog 스타일 정의 -->
-    <style name="Theme.AppCompat.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowCloseOnTouchOutside">false</item>
-    </style>
-
 
 </resources>

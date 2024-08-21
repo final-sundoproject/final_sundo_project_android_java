@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +22,8 @@ import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.location.MapActivity;
 import com.example.sundo_project_app.project.api.ProjectApi;
 import com.example.sundo_project_app.project.model.Project;
+import com.example.sundo_project_app.utill.toolBarActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,16 +33,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AddbusinessActivity extends AppCompatActivity {
+public class AddbusinessActivity extends toolBarActivity {
 
     private RecyclerView recyclerView;
     private ProjectAdapter projectAdapter;
     private List<Project> projectList = new ArrayList<>();
     private ProjectApi apiService;
     private Long companyCode;  // 회사 코드, 필요에 따라 변경하거나 동적으로 설정
-
     private String token;
-
     private TextView noResultsTextView;
 
     @Override
@@ -49,29 +48,47 @@ public class AddbusinessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_business);
 
-        // Intent에서 companyCode를 가져옴
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+
+        userNameTextView = findViewById(R.id.userNameTextView);
+
+        if (userNameTextView != null) {
+            userNameTextView.setText(companyName != null ? companyName : "No Company");
+        } else {
+            Log.e("MapActivity", "TextView with ID userNameTextView not found.");
+        }
+
+
+        // Intent에서 데이터 가져오기
         Intent intent = getIntent();
         companyCode = intent.getLongExtra("companyCode", -1); // 기본값 -1로 설정
         token = intent.getStringExtra("token");
+        companyName = intent.getStringExtra("companyName");
+
+        // 데이터 확인
+        Log.d("AddbusinessActivity", "Received companyCode: " + companyCode);
+        Log.d("AddbusinessActivity", "Received token: " + (token != null ? token : "null"));
+        Log.d("AddbusinessActivity", "Received companyName: " + (companyName != null ? companyName : "null"));
+        
         if (companyCode == -1) {
-            Log.d("companyCode: {}, " , String.valueOf(companyCode));
-            Log.d("token: {}, " , String.valueOf(token));
+            Log.d("companyCode: {}, ", String.valueOf(companyCode));
+            Log.d("token: {}, ", String.valueOf(token));
             Toast.makeText(this, "유효하지 않은 회사 코드입니다.", Toast.LENGTH_SHORT).show();
             finish();
+            return; // 데이터가 유효하지 않을 경우 Activity 종료
         }
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         noResultsTextView = findViewById(R.id.noResultsTextView);
 
-//        projectAdapter = new ProjectAdapter(projectList);
-//        recyclerView.setAdapter(projectAdapter);
-
         projectAdapter = new ProjectAdapter(projectList, this::onProjectItemClick);
         recyclerView.setAdapter(projectAdapter);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/") // 서버의 기본 URL (에뮬레이터에서는 localhost가 10.0.2.2로 매핑됨)
+                .baseUrl("http://172.30.1.94:8000/") // 서버의 기본 URL (에뮬레이터에서는 localhost가 10.0.2.2로 매핑됨)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -104,8 +121,6 @@ public class AddbusinessActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-
-
     }
 
     private void updateNoResultsTextView() {
@@ -118,7 +133,7 @@ public class AddbusinessActivity extends AppCompatActivity {
 
     private void onProjectItemClick(Project projects) {
         Intent mapIntent = new Intent(AddbusinessActivity.this, MapActivity.class);
-        mapIntent.putExtra("project",projects);
+        mapIntent.putExtra("project", projects);
         mapIntent.putExtra("token", token);
         startActivity(mapIntent);
     }

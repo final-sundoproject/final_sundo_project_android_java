@@ -1,244 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:layout_height="wrap_content"
     android:padding="16dp"
-    android:clickable="true"
-    android:focusable="true">
+    android:layout_gravity="bottom|center"
+    android:elevation="4dp"
+    android:layout_margin="16dp">
 
-    <!-- 배경이 투명하여 모달창 이외의 부분을 클릭할 수 없게 함 -->
-    <RelativeLayout
+    <!-- 위도와 경도 입력 필드들 -->
+    <LinearLayout
+        android:id="@+id/ll_coordinates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/dialog_location_background"
-        android:elevation="8dp"
-        android:padding="16dp">
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:padding="8dp" >
 
-        <!-- 닫기 버튼 -->
-        <TextView
-            android:id="@+id/btn_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp"
-            android:text="×"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- 위도 입력 필드들 -->
+        <!-- X 버튼 -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Latitude"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="Degrees"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_latitude_degrees"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="0.0"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="Minutes"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_latitude_minutes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="0.0"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="Seconds"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_latitude_seconds"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="0.0"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="Direction"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_latitude_direction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="N/S"
-                        android:inputType="text"
-                        android:maxLength="1"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="Degrees"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_longitude_degrees"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="0.0"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="Minutes"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_longitude_minutes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="0.0"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="Seconds"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_longitude_seconds"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="0.0"
-                        android:inputType="numberDecimal"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="Direction"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/et_longitude_direction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_background"
-                        android:hint="E/W"
-                        android:inputType="text"
-                        android:maxLength="1"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- 제출 버튼 -->
-            <Button
-                android:id="@+id/btn_submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/sundo_green_light"
-                android:padding="12dp"
-                android:text="좌표 등록"
-                android:textColor="@color/white"
+                android:text="Degrees"
                 android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_latitude_degrees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="0.0"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minutes"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_latitude_minutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="0.0"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seconds"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_latitude_seconds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="0.0"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Direction"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_latitude_direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="N/S"
+                android:inputType="text"
+                android:maxLength="1" />
         </LinearLayout>
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Degrees"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_longitude_degrees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="0.0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minutes"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_longitude_minutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="0.0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seconds"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_longitude_seconds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="0.0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Direction"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_longitude_direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="E/W"
+                android:inputType="text"
+                android:maxLength="1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:text="x"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/sundo_green_light"
+        android:text="좌표 등록"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/ll_coordinates"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

@@ -2,12 +2,15 @@ package com.example.sundo_project_app.location;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +22,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.evaluation.EvaluationActivity;
 import com.example.sundo_project_app.evaluation.EvaluationDialogFragment;
 import com.example.sundo_project_app.project.model.Project;
+import com.example.sundo_project_app.regulatedArea.RegulatedArea;
 import com.example.sundo_project_app.utill.KoreanInputFilter;
+import com.example.sundo_project_app.utill.toolBarActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -39,26 +46,28 @@ import com.naver.maps.map.overlay.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity  {
 
     private NaverMap naverMap;
     private boolean isMarkerEnabled = false; // 마커 추가 모드 상태
     private Button coordinateSelectButton;
     private Button resetButton; // 초기화 버튼
     private Button gpsButton; // GPS 버튼
-    private Button btnRedulated; // 규제지역 버튼
-    private Button btnShowDialog;
-    private Button btnShowList;
+    private Button btnRedulated;// 규제지역 버튼
     private List<Marker> markers; // 사용자가 추가한 마커 리스트
     private List<Marker> gpsMarkers; // GPS로 추가한 마커 리스트
     private boolean isFollowingLocation = false; // 사용자에 의해 화면이 위치를 따라갈지 결정
+
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private Handler handler; // Handler를 사용하여 주기적으로 작업 수행
     private Runnable locationUpdateRunnable; // 위치 업데이트를 주기적으로 수행하는 Runnable
     private static final long LOCATION_UPDATE_INTERVAL = 10000; // 10초 간격
     private static final long LOCATION_UPDATE_FASTEST_INTERVAL = 5000; // 5초 간격
+    private Button btnShowDialog;
+    private Button btnShowList;
     private String projectId;
+
     private Project currentProject;
     private String registerName;
 
@@ -84,7 +93,7 @@ public class MapActivity extends AppCompatActivity {
         btnRedulated = findViewById(R.id.redulated);
         markers = new ArrayList<>();
         gpsMarkers = new ArrayList<>();
-        updateShowListButtonState(); // 초기 상태로 버튼 업데이트
+
     }
 
     private void initializeLocationServices() {
@@ -173,11 +182,8 @@ public class MapActivity extends AppCompatActivity {
 
         btnShowList.setOnClickListener(v -> {
             Log.d("btnShowList", "평가입력 버튼 클릭됨");
-            if (markers.size() >= 1) {
-                showEvaluationPromptDialog(); // 모달 창을 띄우는 메서드 호출
-            } else {
-                Toast.makeText(MapActivity.this, "하나의 마커만 추가해 주세요.", Toast.LENGTH_SHORT).show();
-            }
+            Intent intent = new Intent(MapActivity.this, EvaluationActivity.class);
+            startActivity(intent);
         });
 
         findViewById(R.id.coordinateInput).setOnClickListener(v -> {
@@ -235,26 +241,11 @@ public class MapActivity extends AppCompatActivity {
         });
 
         Toast.makeText(MapActivity.this, "Clicked Location: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
-        updateShowListButtonState(); // 마커 추가 후 버튼 상태 업데이트
     }
 
     private void showEvaluationDialog() {
         EvaluationDialogFragment dialog = new EvaluationDialogFragment();
         dialog.show(getSupportFragmentManager(), "EvaluationDialog");
-    }
-
-    private void showEvaluationPromptDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("평가 입력");
-        builder.setMessage("평가를 입력할 마크업을 선택해주세요.");
-
-        builder.setNegativeButton("확인", (dialog, which) -> {
-            dialog.dismiss();
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
     }
 
     private void toggleMarkerMode() {
@@ -269,6 +260,7 @@ public class MapActivity extends AppCompatActivity {
         Toast.makeText(this, isMarkerEnabled ? "마커 추가 모드 활성화" : "마커 추가 모드 비활성화", Toast.LENGTH_SHORT).show();
     }
 
+
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
         if (!hasLocationPermissions()) {
@@ -280,7 +272,7 @@ public class MapActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, location -> {
                     if (location != null) {
                         updateCurrentLocationOnMap(location);
-                        Toast.makeText(MapActivity.this, "위도 : " + location.getLatitude() +" , "+ "경도 :" + location.getLongitude(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapActivity.this, "위도 : " + location.getLatitude() + " , " + "경도 :" + location.getLongitude(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(MapActivity.this, "위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                     }
@@ -311,12 +303,13 @@ public class MapActivity extends AppCompatActivity {
         gpsMarkers.add(gpsMarker);
     }
 
+
     private void startTrackingLocation() {
         if (!isFollowingLocation) {
             isFollowingLocation = true;
             gpsButton.setText("중지");
             getCurrentLocation();
-            Toast.makeText(MapActivity.this, "위치 추적 시작" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(MapActivity.this, "위치 추적 시작", Toast.LENGTH_SHORT).show();
 
         } else {
             isFollowingLocation = false;
@@ -342,16 +335,6 @@ public class MapActivity extends AppCompatActivity {
         gpsButton.setText("GPS");
         stopLocationUpdates();
         isFollowingLocation = false;
-
-        updateShowListButtonState(); // 초기 상태로 버튼 업데이트
-    }
-
-    private void updateShowListButtonState() {
-        if (markers.size() >= 1) {
-            btnShowList.setEnabled(true);
-        } else {
-            btnShowList.setEnabled(false);
-        }
     }
 
     private void requestLocationPermissions() {
@@ -380,7 +363,25 @@ public class MapActivity extends AppCompatActivity {
         builder.setCustomTitle(customTitleView);
 
         final EditText input = new EditText(this);
-        input.setFilters(new InputFilter[]{new KoreanInputFilter()}); // 한글 입력만 가능하도록 설정
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                if (!text.matches("[ㄱ-ㅎ가-힣]*")) {
+                    Toast.makeText(MapActivity.this, "한글만 입력 가능합니다.", Toast.LENGTH_SHORT).show();
+                    s.delete(s.length() - 1, s.length());
+                }
+            }
+        });
+
         builder.setView(input);
 
         builder.setPositiveButton("확인", (dialog, which) -> {
