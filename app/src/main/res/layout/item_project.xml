@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    android:background="@drawable/border"
+    android:padding="8dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- 체크박스 -->
+    <CheckBox
+        android:id="@+id/projectCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"/>
+
+    <!-- 프로젝트 이름 -->
+    <TextView
+        android:id="@+id/projectName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="프로젝트 이름"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/projectCheckBox"
+        android:layout_alignTop="@id/projectCheckBox"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
+
+    <!-- 등록 일자 -->
+    <TextView
+        android:id="@+id/registrationDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="등록 일자: 2024년 4월 24일 오전 10시 33분"
+        android:textSize="14sp"
+        android:layout_below="@id/projectName"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/projectCheckBox"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
+
+</RelativeLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_location_background"
+    android:elevation="16dp"
+    android:padding="16dp">
+
+    <!-- 닫기 버튼 -->
+    <TextView
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackground"
+        android:padding="8dp"
+        android:text="×"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:contentDescription="닫기" />
+
+    <!-- 위도 레이블 -->
+    <TextView
+        android:id="@+id/tv_latitude_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_close"
+        android:layout_marginTop="16dp"
+        android:text="Latitude"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- 위도 입력 필드 -->
+    <EditText
+        android:id="@+id/et_latitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_latitude_label"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/edittext_background"
+        android:hint="37.481169"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:inputType="numberDecimal"/>
+
+    <!-- 경도 레이블 -->
+    <TextView
+        android:id="@+id/tv_longitude_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_latitude"
+        android:layout_marginTop="16dp"
+        android:text="Longitude"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- 경도 입력 필드 -->
+    <EditText
+        android:id="@+id/et_longitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_longitude_label"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/edittext_background"
+        android:hint="126.880711"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:inputType="numberDecimal"/>
+
+    <!-- 좌표 등록 버튼 -->
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_longitude"
+        android:layout_marginTop="16dp"
+        android:background="@color/sundo_green_light"
+        android:padding="12dp"
+        android:text="좌표 등록"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</RelativeLayout>

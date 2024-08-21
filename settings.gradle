@@ -1,0 +1,17 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://repository.map.naver.com/archive/maven" }
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://repository.map.naver.com/archive/maven" }
+    }
+}
+rootProject.name = "sundo_project_app"
+include ':app'

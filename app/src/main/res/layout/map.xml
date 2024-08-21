@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background_rouded"
+    android:padding="16dp">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.naver.maps.map.MapFragment" />
+
+    <TextView
+        android:id="@+id/textBox3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_box_background"
+        android:padding="8dp"
+        android:text="이대역"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/arCheck"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/login_button_background"
+        android:text="AR 확인"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/coordinateInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textBox3"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <Button
+        android:id="@+id/coordinateInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/login_button_background"
+        android:text="좌표입력"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/coordinateSelect"
+        app:layout_constraintStart_toEndOf="@+id/arCheck"
+        app:layout_constraintTop_toBottomOf="@id/textBox3"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <Button
+        android:id="@+id/coordinateSelect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/login_button_background"
+        android:text="좌표선택"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/coordinateInput"
+        app:layout_constraintTop_toBottomOf="@id/textBox3"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button_background"
+        android:text="초기화"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/coordinateSelect" />
+
+    <Button
+        android:id="@+id/gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button_background"
+        android:text="GPS"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/coordinateSelect" />
+
+    <Button
+        android:id="@+id/redulated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button_background"
+        android:text="규제지역"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gps" />
+
+    <!-- 오른쪽 하단으로 배치된 평가리스트 버튼 -->
+    <Button
+        android:id="@+id/btnShowDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/login_button_background"
+        android:text="평가리스트"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.4" /> <!-- 버튼 너비를 설정하여 동일하게 만듦 -->
+
+    <!-- 오른쪽 하단으로 배치된 평가입력 버튼 -->
+    <Button
+        android:id="@+id/enteredPoint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/login_button_background"
+        android:text="평가입력"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnShowDialog"
+        app:layout_constraintWidth_percent="0.4" /> <!-- 버튼 너비를 설정하여 동일하게 만듦 -->
+
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_button_background"
+        android:text="제거"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@id/gps"
+        app:layout_constraintTop_toBottomOf="@id/coordinateSelect" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

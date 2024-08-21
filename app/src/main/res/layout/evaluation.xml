@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/nestedScrollView"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="평가 입력"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background2" />
+
+        <View
+            android:id="@+id/viewSeparator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="8dp"
+            android:background="@android:color/darker_gray" />
+
+        <!-- 점수 리스트 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 평가명 -->
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="강화도 A 영향 평가 3KM"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp" />
+
+            <!-- 관찰자명 -->
+            <TextView
+                android:id="@+id/textViewObserver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="김재엽"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp" />
+
+            <!-- 등록일자 -->
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024년 4월 18일 오후 2시 01분"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/scoreList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <!-- 점수 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <!-- 평가 1 레이블 -->
+                <TextView
+                    android:id="@+id/textViewLabel1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="풍속"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+
+                <!-- SeekBar와 레이블 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <SeekBar
+                        android:id="@+id/seekBar1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:max="100"
+                        android:progress="0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/textViewSeek1_0"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek1_25"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="25"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek1_50"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="50"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek1_75"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="75"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek1_100"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="100"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 점수 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <!-- 평가 2 레이블 -->
+                <TextView
+                    android:id="@+id/textViewLabel2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="소음"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- SeekBar와 레이블 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <SeekBar
+                        android:id="@+id/seekBar2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:max="100"
+                        android:progress="0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/textViewSeek2_0"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek2_25"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="25"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek2_50"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="50"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek2_75"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="75"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek2_100"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="100"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 점수 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <!-- 평가 3 레이블 -->
+                <TextView
+                    android:id="@+id/textViewLabel3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="가시성"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- SeekBar와 레이블 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <SeekBar
+                        android:id="@+id/seekBar3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:max="100"
+                        android:progress="0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/textViewSeek3_0"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek3_25"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="25"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek3_50"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="50"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek3_75"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="75"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek3_100"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="100"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 점수 4 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <!-- 평가 4 레이블 -->
+                <TextView
+                    android:id="@+id/textViewLabel4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수심"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- SeekBar와 레이블 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <SeekBar
+                        android:id="@+id/seekBar4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:max="100"
+                        android:progress="0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/textViewSeek4_0"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek4_25"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="25"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek4_50"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="50"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek4_75"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="75"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textViewSeek4_100"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="100"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="제출하기"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
