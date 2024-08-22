@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.compass.CompassActivity;
 import com.example.sundo_project_app.evaluation.EvaluationActivity;
 
 import com.example.sundo_project_app.project.model.Project;
@@ -138,10 +139,10 @@ public class GeneratorActivity extends AppCompatActivity {
                     String response = responseBuilder.toString();
                     Log.d("GeneratorActivity", "Response from server: " + response);
 
-                    // Success - start EvaluationActivity with bundled data
+                    // Success - start CompassActivity with bundled data
                     runOnUiThread(() -> {
                         Toast.makeText(GeneratorActivity.this, generatorType + " 발전기가 선택되었습니다. 각도: " + directionAngle, Toast.LENGTH_SHORT).show();
-                        startEvaluationActivity(generatorType, directionAngle, locationId, currentProject, registerName);
+                        startCompassActivity(generatorType, directionAngle, locationId, currentProject, registerName);
                         finish();
                     });
                 } else {
@@ -154,6 +155,24 @@ public class GeneratorActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void startCompassActivity(String generatorType, double directionAngle, String locationId, Serializable currentProject, String registerName) {
+        Intent intent = new Intent(GeneratorActivity.this, CompassActivity.class);
+        intent.putExtra("generatorType", generatorType);
+        intent.putExtra("directionAngle", directionAngle);
+        intent.putExtra("locationId", locationId);
+
+        intent.putExtra("currentProject", currentProject);
+        intent.putExtra("registerName", registerName);
+
+        Log.d("GeneratorActivity", "currentProject: " + currentProject);
+        Log.d("GeneratorActivity", "generatorType: " + generatorType);
+        Log.d("GeneratorActivity", "directionAngle: " + directionAngle);
+        Log.d("GeneratorActivity", "locationId: " + locationId);
+
+        startActivity(intent);
+    }
+
 
 
     private void startEvaluationActivity(String generatorType, double directionAngle, String locationId, Serializable currentProject, String registerName) {
