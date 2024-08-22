@@ -12,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.project.AddbusinessActivity;
+import com.example.sundo_project_app.utill.TermsDialogFragment;
 import com.example.sundo_project_app.utill.UrlManager;
 
 import org.json.JSONException;
@@ -71,10 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signUpButton.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-            startActivity(intent);
-        });
+        signUpButton.setOnClickListener(view -> showTermsDialog());
 
         findEmailLink.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, EmailFindActivity.class);
@@ -85,6 +84,17 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, PasswordFindActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void showTermsDialog() {
+        TermsDialogFragment dialog = new TermsDialogFragment();
+        dialog.setOnTermsAcceptedListener(() -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+            startActivity(intent);
+        });
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        dialog.show(fragmentManager, "termsDialog");
     }
 
     private void login(String email, String password) {
