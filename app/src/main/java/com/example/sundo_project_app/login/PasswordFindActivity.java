@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.utill.UrlManager;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -29,7 +31,7 @@ public class PasswordFindActivity extends AppCompatActivity {
     private Button passwordFindButton;
     private TextView passwordCheckTextView;
 
-    private static final String PASSWORD_FIND_URL = "http://10.0.2.2:8000/api/companies/find-password";
+    private static final String PASSWORD_FIND_URL = UrlManager.BASE_URL + "/api/companies/find-password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

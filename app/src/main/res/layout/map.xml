@@ -9,9 +9,11 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map_fragment"
+        android:name="com.naver.maps.map.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     <TextView
         android:id="@+id/textBox3"
@@ -31,7 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="AR 확인"
         android:textAlignment="center"
         android:textColor="#ffffff"
@@ -46,7 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="좌표입력"
         android:textAlignment="center"
         android:textColor="#ffffff"
@@ -61,7 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="좌표선택"
         android:textAlignment="center"
         android:textColor="#ffffff"
@@ -76,10 +78,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="초기화"
-        android:textStyle="bold"
         android:gravity="center"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/coordinateSelect" />
 
@@ -88,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="GPS"
         android:textAlignment="center"
         android:textColor="#ffffff"
@@ -101,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="규제지역"
         android:textAlignment="center"
         android:textColor="#ffffff"
@@ -109,13 +111,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gps" />
 
+
+
     <!-- 오른쪽 하단으로 배치된 평가리스트 버튼 -->
     <Button
         android:id="@+id/btnShowDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="평가리스트"
         android:textAlignment="center"
         android:textColor="#ffffff"
@@ -130,7 +134,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/login_button_background"
+        android:backgroundTint="#40895B"
         android:text="평가입력"
         android:textAlignment="center"
         android:textColor="#ffffff"

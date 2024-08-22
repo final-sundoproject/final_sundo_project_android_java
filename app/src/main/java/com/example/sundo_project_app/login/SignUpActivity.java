@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -28,7 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText businessNumberInput;
     private Button signUpButton;
 
-    private static final String SIGNUP_URL = "http://10.0.2.2:8000/api/companies/register";
+    private static final String SIGNUP_URL = UrlManager.BASE_URL + "/api/companies/register";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

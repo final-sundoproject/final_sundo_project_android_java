@@ -59,7 +59,7 @@
             android:padding="8dp"
             android:textStyle="bold"
             android:text="DD (위도, 경도)"
-            android:textColor="@color/secondaryColor" />
+            android:textColor="#40895B" />
 
         <Button
             android:id="@+id/btn_dms_format"
@@ -70,6 +70,6 @@
             android:padding="8dp"
             android:text="DMS (도분초)"
             android:textStyle="bold"
-            android:textColor="@color/primaryColor" />
+            android:textColor="#70b988" />
     </LinearLayout>
 </LinearLayout>

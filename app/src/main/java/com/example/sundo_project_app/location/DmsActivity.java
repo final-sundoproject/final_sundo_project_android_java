@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.evaluation.EvaluationActivity;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import org.json.JSONObject;
 
@@ -37,7 +38,7 @@ public class DmsActivity extends AppCompatActivity {
     private String projectId; // projectId를 멤버 변수로 선언
 
     private static final String TAG = "DmsActivity";
-    private static final String SERVER_URL = "http://10.0.2.2:8000/location"; // 변경할 서버 URL
+    private static final String SERVER_URL = UrlManager.BASE_URL + "/location"; // 변경할 서버 URL
 
     // locationId 변수를 멤버 변수로 선언
     private String locationId;

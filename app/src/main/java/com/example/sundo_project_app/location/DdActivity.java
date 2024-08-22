@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import org.json.JSONObject;
 
@@ -36,7 +37,7 @@ public class DdActivity extends Activity {
     private String registerName;
 
     private static final String TAG = "DdActivity";
-    private static final String SERVER_URL = "http://10.0.2.2:8000/location";
+    private static final String SERVER_URL = UrlManager.BASE_URL + "/location";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

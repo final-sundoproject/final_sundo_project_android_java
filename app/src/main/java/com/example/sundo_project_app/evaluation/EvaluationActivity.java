@@ -25,6 +25,7 @@ import androidx.core.widget.NestedScrollView;
 import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.location.MapActivity;
 import com.example.sundo_project_app.project.model.Project;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -220,7 +221,7 @@ public class EvaluationActivity extends AppCompatActivity {
         executor.execute(() -> {
             String result;
             try {
-                URL url = new URL("http://10.0.2.2:8000/evaluation");
+                URL url = new URL(UrlManager.BASE_URL + "/evaluation");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);

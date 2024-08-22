@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import java.io.IOException;
 
@@ -27,8 +28,7 @@ public class EmailFindActivity extends AppCompatActivity {
     private Button emailFindButton;
     private TextView emailResultTextView;
 
-    private static final String EMAIL_FIND_URL = "http://10.0.2.2:8000/api/companies/find-email";
-
+    private static final String EMAIL_FIND_URL = UrlManager.BASE_URL + "/api/companies/find-email";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,3 +87,5 @@ public class EmailFindActivity extends AppCompatActivity {
         });
     }
 }
+
+

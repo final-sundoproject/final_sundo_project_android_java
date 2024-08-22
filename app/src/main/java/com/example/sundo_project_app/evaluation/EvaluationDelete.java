@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -45,7 +46,7 @@ public class EvaluationDelete {
 
     private void deleteEvaluationFromServer() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/")
+                .baseUrl(UrlManager.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -15,6 +15,7 @@ import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.evaluation.EvaluationActivity;
 
 import com.example.sundo_project_app.project.model.Project;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import org.json.JSONObject;
 
@@ -111,7 +112,7 @@ public class GeneratorActivity extends AppCompatActivity {
                 Serializable currentProject = getIntent().getSerializableExtra("currentProject");
 
                 // URL 설정
-                URL url = new URL("http://10.0.2.2:8000/generator" + (locationId != null ? "/" + locationId : "/"+0));
+                URL url = new URL(UrlManager.BASE_URL + "/generator" + (locationId != null ? "/" + locationId : "/"+0));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json; utf-8");

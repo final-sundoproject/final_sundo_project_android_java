@@ -7,46 +7,64 @@
     android:background="#D4F1D4"
     tools:context=".login.EmailFindActivity">
 
+    <!-- 상단바 -->
+    <View
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="#40895B"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!-- 상단바 내의 제목? -->
     <TextView
         android:id="@+id/emailFindTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="이메일 찾기"
-        android:textColor="#000000"
-        android:textSize="22sp"
+        android:text="find email"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/header"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.134"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/header"
+        app:layout_constraintVertical_bias="0.484" />
 
-    <EditText
-        android:id="@+id/companyAddressInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="12dp"
-        android:background="#66FFFFFF"
-        android:hint="사업자 주소를 입력하세요"
-        android:padding="12dp"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/companyNameInput"
-        app:layout_constraintWidth_percent="0.8" />
 
+    <!-- 회사명 입력 텍스트박스 -->
     <EditText
         android:id="@+id/companyNameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="68dp"
+        android:layout_margin="40dp"
+        android:layout_marginTop="40dp"
         android:background="#66FFFFFF"
         android:hint="회사명을 입력하세요"
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailFindTitle"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <!--    사업자 번호 입력 텍스트 박스-->
+    <EditText
+        android:id="@+id/companyAddressInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="26dp"
+        android:layout_marginTop="28dp"
+        android:background="#66FFFFFF"
+        android:hint="사업자 번호를 입력하세요"
+        android:padding="12dp"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/companyNameInput"
         app:layout_constraintWidth_percent="0.8" />
 
     <Button
@@ -67,15 +85,15 @@
         android:id="@+id/emailResultTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
         android:text="이메일 결과가 여기에 표시됩니다."
         android:textSize="16sp"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailFindButton"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"/>
-
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailFindButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

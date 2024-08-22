@@ -22,6 +22,7 @@ import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.location.MapActivity;
 import com.example.sundo_project_app.project.api.ProjectApi;
 import com.example.sundo_project_app.project.model.Project;
+import com.example.sundo_project_app.utill.UrlManager;
 import com.example.sundo_project_app.utill.toolBarActivity;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class AddbusinessActivity extends toolBarActivity {
         recyclerView.setAdapter(projectAdapter);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/") // 서버의 기본 URL (에뮬레이터에서는 localhost가 10.0.2.2로 매핑됨)
+                .baseUrl(UrlManager.BASE_URL) // 서버의 기본 URL (에뮬레이터에서는 localhost가 10.0.2.2로 매핑됨)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

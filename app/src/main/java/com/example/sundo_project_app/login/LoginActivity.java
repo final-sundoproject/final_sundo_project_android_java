@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.project.AddbusinessActivity;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView findEmailLink;
     private TextView findPasswordLink;
 
-    private static final String LOGIN_URL = "http://10.0.2.2:8000/api/companies/login";
-    private static final String VALIDATE_TOKEN_URL = "http://10.0.2.2:8000/api/validate-token";
+    private static final String LOGIN_URL = UrlManager.BASE_URL + "/api/companies/login";
+    private static final String VALIDATE_TOKEN_URL = UrlManager.BASE_URL + "/api/validate-token";
 
     private String companyName;
 

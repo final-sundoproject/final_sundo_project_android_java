@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.utill.UrlManager;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -57,7 +58,7 @@ public class EvaluationDialogFragment extends DialogFragment {
 
     private void fetchDataAndUpdateRecyclerView() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/")
+                .baseUrl(UrlManager.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

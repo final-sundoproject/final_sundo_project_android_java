@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.utill.UrlManager;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -27,7 +29,7 @@ public class PasswordResetActivity extends AppCompatActivity {
     private EditText passwordResetInputCheck;
     private Button passwordResetButton;
 
-    private static final String RESET_PASSWORD_URL = "http://10.0.2.2:8000/api/companies/reset-password";
+    private static final String RESET_PASSWORD_URL = UrlManager.BASE_URL +"/api/companies/reset-password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

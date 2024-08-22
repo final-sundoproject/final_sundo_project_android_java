@@ -1,208 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80000000">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
 
-    <!-- 터치 차단용 레이아웃 -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true" />
-
-    <!-- 모달창을 중앙에 위치시키기 위한 LinearLayout -->
+    <!-- 제목과 "x" 버튼을 같은 선상에 배치 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:color/white"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- 제목 텍스트 -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="풍력 발전기 모델 선택"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+
+        <!-- "x" 버튼 -->
+        <TextView
+            android:id="@+id/close_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="x"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:clickable="true"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <!-- 첫 번째 풍력 발전기 옵션 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="129dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/generator_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <!-- 제목과 X 버튼을 같은 선상에 배치 -->
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:src="@drawable/wind_power" />
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="16dp">
 
-            <!-- 제목 텍스트 -->
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="풍력 발전기 모델 선택"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <!-- X 버튼 -->
-            <TextView
-                android:id="@+id/close_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:clickable="true"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="x"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- 첫 번째 풍력 발전기 옵션 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="129dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/generator_background"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/doosan_wind_generator" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingStart="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="두산중공업 풍력 발전기"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <!-- 방향 각도 입력 부분 -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Doosan Wind Power Generator"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="방향 각도 :"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/doosan_angle_edit_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:background="@android:drawable/editbox_background"
-                        android:gravity="center"
-                        android:inputType="numberDecimal"
-                        android:text="0.0"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/doosan_select_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/generator_button_background"
-                android:text="선택"
+                android:text="두산중공업 풍력 발전기"
                 android:textColor="@android:color/black"
+                android:textSize="16sp"
                 android:textStyle="bold" />
-        </LinearLayout>
 
-        <!-- 두 번째 풍력 발전기 옵션 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="129dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/generator_background"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/unison_wind_generator" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingStart="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="유니슨 풍력 발전기"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Unison Wind Power Generator"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp" />
-
-                <!-- 방향 각도 입력 부분 -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="방향 각도 :"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/unison_angle_edit_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:background="@android:drawable/editbox_background"
-                        android:gravity="center"
-                        android:inputType="numberDecimal"
-                        android:text="0.0"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/unison_select_button"
+            <!-- 방향 각도 입력 부분 -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/generator_button_background"
-                android:text="선택"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                android:text="Doosan Wind Power Generator"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="방향 각도 :"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/doosan_angle_edit_text"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/editbox_background"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:text="0.0"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/doosan_select_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:text="선택"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
     </LinearLayout>
-</FrameLayout>
+
+    <!-- 두 번째 풍력 발전기 옵션 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="129dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/generator_background"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:src="@drawable/wind_power" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유니슨 풍력 발전기"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unison Wind Power Generator"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <!-- 방향 각도 입력 부분 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="방향 각도 :"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/unison_angle_edit_text"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:text="0.0"
+                    android:inputType="numberDecimal"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:background="@android:drawable/editbox_background"
+                    android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/unison_select_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선택"
+            android:backgroundTint="#ffffff"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+</LinearLayout>
