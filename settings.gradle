@@ -14,4 +14,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "sundo_project_app"
-include ':app'
+
+include ':unityLibrary',':app', ':unityLibrary:xrmanifest.androidlib', ':unityLibrary:libs'

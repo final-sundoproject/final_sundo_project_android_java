@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation project(':unityLibrary')
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
