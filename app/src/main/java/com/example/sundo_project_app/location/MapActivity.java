@@ -56,7 +56,7 @@ public class MapActivity extends AppCompatActivity  {
     private Button btnRedulated;// 규제지역 버튼
     private List<Marker> markers; // 사용자가 추가한 마커 리스트
     private List<Marker> gpsMarkers; // GPS로 추가한 마커 리스트
-    private boolean isFollowingLocation = false; // 사용자에 의해 화면이 위치를 따라갈지 결정
+    private boolean isFollowingLocation = false;
 
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
@@ -313,6 +313,7 @@ public class MapActivity extends AppCompatActivity  {
 
         if (isFollowingLocation) {
             naverMap.setCameraPosition(new CameraPosition(latLng, 15));
+            isFollowingLocation = false; // 카메라를 한 번 이동한 후 플래그를 false로 설정
         }
 
         // 기존의 GPS 마커가 있으면 삭제
