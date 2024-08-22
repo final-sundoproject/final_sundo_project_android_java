@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:layout_gravity="bottom|center"
+    android:background="@drawable/rounded_corner_background"
     android:elevation="4dp"
     android:layout_margin="16dp">
 
