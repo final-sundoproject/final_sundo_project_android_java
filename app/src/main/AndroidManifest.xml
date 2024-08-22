@@ -55,7 +55,7 @@
             android:hardwareAccelerated="false"
             android:exported="true"
             android:process=":UnityKillsMe"
-            >
+            tools:ignore="DiscouragedApi,NonResizeableActivity">
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
             <meta-data android:name="notch_support" android:value="true" />
         </activity>
