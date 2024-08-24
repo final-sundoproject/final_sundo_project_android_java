@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D4F1D4"
+    android:background="@drawable/wind_background3"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="8dp">
 
     <!-- Logo Image -->
+
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="350dp"
@@ -20,18 +21,13 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.148" />
+        app:layout_constraintVertical_bias="0.225" />
 
-    <!-- Title -->
-
-    <!-- Email Input -->
-
-    <!-- Password Input -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AR 기반 풍력발전기 평가 앱(APP)"
+        android:text=""
         android:textColor="@android:color/darker_gray"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/emailInput"
@@ -46,9 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:layout_marginTop="52dp"
-        android:background="#66FFFFFF"
+        android:background="@drawable/rounded_edittext"
         android:elevation="4dp"
-        android:hint="email을 입력하세요"
+        android:hint="Email을 입력하시오"
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,15 +52,19 @@
         app:layout_constraintTop_toBottomOf="@id/titleText"
         app:layout_constraintWidth_percent="0.8" />
 
+    <!-- Auto-login Checkbox -->
+
+    <!-- Find Email and Password Links -->
+
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:layout_marginTop="2dp"
-        android:background="#66FFFFFF"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_edittext"
         android:elevation="4dp"
-        android:hint="password를 입력하세요"
+        android:hint="Password를 입력하시오"
         android:inputType="textPassword"
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
@@ -72,10 +72,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailInput"
         app:layout_constraintWidth_percent="0.8" />
-
-    <!-- Auto-login Checkbox -->
-
-    <!-- Find Email and Password Links -->
 
     <CheckBox
         android:id="@+id/autoLoginCheckbox"
@@ -123,28 +119,25 @@
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#40895B"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#874CAEFA"
         android:padding="12dp"
-        android:text="login"
-        android:textColor="@android:color/white"
+        android:text="L O G I N"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/autoLoginCheckbox"
         app:layout_constraintWidth_percent="0.8" />
 
-    <Button
+    <TextView
         android:id="@+id/signupButton"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="#40895B"
-        android:padding="12dp"
-        android:text="sign up"
-        android:textColor="@android:color/white"
+        android:text="Don't have an account? Sign up"
+        android:textColor="@color/gray"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

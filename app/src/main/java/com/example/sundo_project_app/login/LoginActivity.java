@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordInput;
     private CheckBox autoLoginCheckbox;
     private Button loginButton;
-    private Button signUpButton;
+    private TextView signUpButton;
     private TextView findEmailLink;
     private TextView findPasswordLink;
 
