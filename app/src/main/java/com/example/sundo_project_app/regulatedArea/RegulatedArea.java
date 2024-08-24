@@ -1,101 +1,122 @@
 package com.example.sundo_project_app.regulatedArea;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.sundo_project_app.R;
+import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.MapFragment;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.overlay.GroundOverlay;
+import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.geometry.LatLngBounds;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class RegulatedArea extends AppCompatActivity {
 
-    private static final String BASE_URL = "https://apis.data.go.kr/1192000/";
+    private static final String TAG = "RegulatedArea";
+    private NaverMap naverMap;
+    private static final String BASE_WMS_URL = "https://apis.data.go.kr/1192000/apVhdService_OpzFh/getOpnOpzFhWMS";
     private static final String SERVICE_KEY = "xyigcn2H+16RENHs6SNbyOXjPjW0t0Tastu/ePEl3PW6jMKcyrxrFErPO4Rzc+GgV2G44DvWYE/HGIeUhEIxCw==";
-    private static final int PAGE_NO = 1;
-    private static final int NUM_OF_ROWS = 1000;
-
-    private TextView TextViewResult;
-
-    private List<String> addresses = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activtiy_regulate_area);
+        setContentView(R.layout.map);
 
-        TextViewResult = findViewById(R.id.textViewInfo);
+        MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(naverMap -> {
+                this.naverMap = naverMap;
+                moveToKorea();
 
-        // Retrofit 초기화
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .build();
+                double minX = 718918.25;
+                double minY = 1433106.875;
+                double maxX = 1249928.75;
+                double maxY = 2071446.875;
 
-        // API 인터페이스 생성
-        RegulateApi api = retrofit.create(RegulateApi.class);
+                double[] wgs84Bounds = CoordinateConverter.convertEPSG5179ToWGS84(minX, minY, maxX, maxY);
 
-        // API 호출
-        Call<RegulateResponse> call = api.getMarineProtectArea(SERVICE_KEY, PAGE_NO, NUM_OF_ROWS);
-        call.enqueue(new Callback<RegulateResponse>() {
-            @Override
-            public void onResponse(Call<RegulateResponse> call, Response<RegulateResponse> response) {
-                if (response.isSuccessful()) {
-                    RegulateResponse apiResponse = response.body();
-                    if (apiResponse != null) {
-                        List<RegulateResponse.Body.Item> items = apiResponse.getBody().getItems().getItemList();
-                        if (items.isEmpty()) {
-                            Log.d("RegulatedArea", "No items found in the response");
-                            TextViewResult.setText("No items found in the response");
-                        } else {
-                            StringBuilder addressBuilder = new StringBuilder();
-                            for (RegulateResponse.Body.Item item : items) {
-                                String address = item.gethmpgNm();
+                String wmsUrl = createWMSUrl(wgs84Bounds[0], wgs84Bounds[1], wgs84Bounds[2], wgs84Bounds[3], 400, 654);
+                new DownloadImageTask().execute(wmsUrl);
+            });
+        }
+    }
 
-                                String[] keywords = {"해양", "습지", "해역", "주변해역"};
+    private String createWMSUrl(double minLon, double minLat, double maxLon, double maxLat, int width, int height) {
+        try {
+            String encodedServiceKey = URLEncoder.encode(SERVICE_KEY, "UTF-8");
+            return String.format("%s?serviceKey=%s&srs=EPSG:4326&bbox=%f,%f,%f,%f&width=%d&height=%d",
+                    BASE_WMS_URL, encodedServiceKey, minLon, minLat, maxLon, maxLat, width, height);
+        } catch (Exception e) {
+            Log.e(TAG, "Error encoding service key: " + e.getMessage());
+            return "";
+        }
+    }
 
-                                int cutIndex = address.length();
-                                for (String keyword : keywords) {
-                                    int index = address.indexOf(keyword);
-                                    if (index != -1 && index < cutIndex) {
-                                        cutIndex = index;
-                                    }
-                                }
-
-                                // 잘라낸 주소를 저장
-                                address = address.substring(0, cutIndex).trim();
-                                addresses.add(address);
-                            }
-
-                            // GeocodeActivity로 주소 목록 전달
-                            Intent intent = new Intent(RegulatedArea.this, GeocodeActivity.class);
-                            intent.putStringArrayListExtra("addresses", new ArrayList<>(addresses));
-                            startActivity(intent);
-                        }
-                    } else {
-                        Log.d("RegulatedArea", "Response body is null");
-                        TextViewResult.setText("Response body is null");
-                    }
-                } else {
-                    Log.d("RegulatedArea", "API call failed with code: " + response.code());
-                    TextViewResult.setText("API call failed with code: " + response.code());
-                }
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap bitmap = null;
+            try {
+                URL imageUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                bitmap = BitmapFactory.decodeStream(input);
+                Log.d(TAG, "Image downloaded successfully.");
+            } catch (Exception e) {
+                Log.e(TAG, "Error downloading image: " + e.getMessage());
             }
+            return bitmap;
+        }
 
-            @Override
-            public void onFailure(Call<RegulateResponse> call, Throwable t) {
-                Log.e("RegulatedArea", "API call failed", t);
-                TextViewResult.setText("API call failed: " + t.getMessage());
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            if (result != null) {
+                addWMSOverlay(result);
+            } else {
+                Log.e(TAG, "Failed to download image.");
             }
-        });
+        }
+    }
+
+    private void moveToKorea() {
+        if (naverMap != null) {
+            LatLng koreaCenter = new LatLng(36.5, 127.5);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(koreaCenter, 5);
+            naverMap.moveCamera(cameraUpdate);
+            Log.d(TAG, "Camera moved to Korea center.");
+        }
+    }
+
+    private void addWMSOverlay(Bitmap wmsBitmap) {
+        if (naverMap == null) {
+            Log.e(TAG, "NaverMap is not initialized.");
+            return;
+        }
+
+        LatLng southwest = new LatLng(32.9, 124.5);
+        LatLng northeast = new LatLng(38.5, 130.4);
+        LatLngBounds bounds = new LatLngBounds(southwest, northeast);
+
+        GroundOverlay groundOverlay = new GroundOverlay();
+        groundOverlay.setImage(OverlayImage.fromBitmap(wmsBitmap));
+        groundOverlay.setBounds(bounds);
+        groundOverlay.setMap(naverMap);
+
+        Log.d(TAG, "WMS overlay added to map.");
     }
 }

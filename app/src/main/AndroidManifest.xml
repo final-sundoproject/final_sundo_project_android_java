@@ -42,6 +42,7 @@
         <activity android:name=".TermsActivity" />
 
 
+
         <activity
             android:name=".compass.CompassActivity"
             android:exported="true">

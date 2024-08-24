@@ -70,6 +70,7 @@ public class MapActivity extends AppCompatActivity  {
 
     private Project currentProject;
     private String registerName;
+    private boolean isRegulatedAreaVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,8 +185,11 @@ public class MapActivity extends AppCompatActivity  {
 
         btnRedulated.setOnClickListener(v -> {
             Log.d("EvaluationFindAllActivity", "규제지역 버튼 클릭됨");
-            Intent intent = new Intent(MapActivity.this, RegulatedArea.class);
-            startActivity(intent);
+            if (isRegulatedAreaVisible) {
+                finishRegulatedArea();
+            } else {
+                openRegulatedArea();
+            }
         });
 
         btnShowList.setOnClickListener(v -> {
@@ -215,6 +219,18 @@ public class MapActivity extends AppCompatActivity  {
         resetButton.setOnClickListener(v -> resetToInitialState());
         gpsButton.setOnClickListener(v -> startTrackingLocation());
     }
+
+
+    private void openRegulatedArea() {
+        Intent intent = new Intent(MapActivity.this, RegulatedArea.class);
+        startActivity(intent);
+        isRegulatedAreaVisible = true;
+    }
+
+    private void finishRegulatedArea() {
+        isRegulatedAreaVisible = false;
+    }
+
 
     private void showEvaluationPromptDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
