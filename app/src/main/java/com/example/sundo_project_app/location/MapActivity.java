@@ -80,7 +80,7 @@ public class MapActivity extends AppCompatActivity  {
     private static final String TAG = "RegulatedArea";
     private static final String BASE_WMS_URL = "https://apis.data.go.kr/1192000/apVhdService_OpzFh/getOpnOpzFhWMS";
     private static final String SERVICE_KEY = "xyigcn2H+16RENHs6SNbyOXjPjW0t0Tastu/ePEl3PW6jMKcyrxrFErPO4Rzc+GgV2G44DvWYE/HGIeUhEIxCw==";
-
+    private GroundOverlay regulatedAreaOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +151,6 @@ public class MapActivity extends AppCompatActivity  {
             }
         }
     }
-
     private void moveToKorea() {
         if (naverMap != null) {
             LatLng koreaCenter = new LatLng(36.5, 127.5);
@@ -171,14 +170,17 @@ public class MapActivity extends AppCompatActivity  {
         LatLng northeast = new LatLng(38.5, 130.4);
         LatLngBounds bounds = new LatLngBounds(southwest, northeast);
 
-        GroundOverlay groundOverlay = new GroundOverlay();
-        groundOverlay.setImage(OverlayImage.fromBitmap(wmsBitmap));
-        groundOverlay.setBounds(bounds);
-        groundOverlay.setMap(naverMap);
+        if (regulatedAreaOverlay != null) {
+            regulatedAreaOverlay.setMap(null);
+        }
+
+        regulatedAreaOverlay = new GroundOverlay();
+        regulatedAreaOverlay.setImage(OverlayImage.fromBitmap(wmsBitmap));
+        regulatedAreaOverlay.setBounds(bounds);
+        regulatedAreaOverlay.setMap(naverMap);
 
         Log.d(TAG, "WMS overlay added to map.");
     }
-
     private void updateShowListButtonState() {
         if (markers.size() >= 1) {
             btnShowList.setEnabled(true);
@@ -266,22 +268,7 @@ public class MapActivity extends AppCompatActivity  {
         });
 
         btnRedulated.setOnClickListener(v -> {
-            if (naverMap != null) {
-                isRegulatedAreaVisible = true;
-                moveToKorea();
-                double minX = 718918.25;
-                double minY = 1433106.875;
-                double maxX = 1249928.75;
-                double maxY = 2071446.875;
-                double[] wgs84Bounds = CoordinateConverter.convertEPSG5179ToWGS84(minX, minY, maxX, maxY);
-
-                String wmsUrl = createWMSUrl(wgs84Bounds[0], wgs84Bounds[1], wgs84Bounds[2], wgs84Bounds[3], 400, 654);
-                new DownloadImageTask().execute(wmsUrl);
-                Log.d("EvaluationFindAllActivity", "규제지역 버튼 클릭됨");
-            }else{
-                isRegulatedAreaVisible = false;
-            }
-        });
+            toggleRegulatedAreaVisibility();});
 
         btnShowList.setOnClickListener(v -> {
             Log.d("btnShowList", "평가입력 버튼 클릭됨");
@@ -309,6 +296,40 @@ public class MapActivity extends AppCompatActivity  {
         coordinateSelectButton.setOnClickListener(v -> toggleMarkerMode());
         resetButton.setOnClickListener(v -> resetToInitialState());
         gpsButton.setOnClickListener(v -> startTrackingLocation());
+    }
+
+    private void toggleRegulatedAreaVisibility() {
+        if (naverMap != null) {
+            if (isRegulatedAreaVisible) {
+                // 규제 지역 숨기기
+                if (regulatedAreaOverlay != null) {
+                    regulatedAreaOverlay.setMap(null); // 지도에서 제거
+                    regulatedAreaOverlay = null; // 변수 초기화
+                }
+                isRegulatedAreaVisible = false;
+                btnRedulated.setText("규제지역");
+                LatLng koreaCenter = new LatLng(37.5706, 126.9897);
+                CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(koreaCenter,13);
+                naverMap.moveCamera(cameraUpdate);
+                Toast.makeText(MapActivity.this, "규제지역 숨김", Toast.LENGTH_SHORT).show();
+            } else {
+                // 규제 지역 보이기
+                moveToKorea();
+                double minX = 718918.25;
+                double minY = 1433106.875;
+                double maxX = 1249928.75;
+                double maxY = 2071446.875;
+                double[] wgs84Bounds = CoordinateConverter.convertEPSG5179ToWGS84(minX, minY, maxX, maxY);
+
+                String wmsUrl = createWMSUrl(wgs84Bounds[0], wgs84Bounds[1], wgs84Bounds[2], wgs84Bounds[3], 400, 654);
+                new DownloadImageTask().execute(wmsUrl);
+                isRegulatedAreaVisible = true;
+                btnRedulated.setText("규제지역 숨기기");
+                Toast.makeText(MapActivity.this, "규제지역 표시", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(MapActivity.this, "지도가 초기화되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
