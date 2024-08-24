@@ -3,6 +3,7 @@ package com.example.sundo_project_app.location;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -87,7 +88,13 @@ public class MapActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
 
-        showEvaluatorNameDialog(); // 평가자 이름 입력 대화 상자 표시
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        registerName = sharedPreferences.getString("evaluatorName", "");
+
+        if (registerName.isEmpty()) {
+            showEvaluatorNameDialog();
+        }
+
         initializeViews();
         initializeLocationServices();
         retrieveProjectData();
@@ -272,7 +279,9 @@ public class MapActivity extends AppCompatActivity  {
 
         btnShowList.setOnClickListener(v -> {
             Log.d("btnShowList", "평가입력 버튼 클릭됨");
-            if (markers.size() >= 1) {
+            if (markers == null || markers.isEmpty()) {
+                Toast.makeText(MapActivity.this, "좌표입력을 먼저 진행해주세요", Toast.LENGTH_SHORT).show();
+            } else if (markers.size() >= 1) {
                 showEvaluationPromptDialog(); // 모달 창을 띄우는 메서드 호출
             } else {
                 Toast.makeText(MapActivity.this, "하나의 마커만 추가해 주세요.", Toast.LENGTH_SHORT).show();
@@ -532,9 +541,14 @@ public class MapActivity extends AppCompatActivity  {
 
         builder.setPositiveButton("확인", (dialog, which) -> {
             registerName = input.getText().toString();
+            SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("evaluatorName", registerName);
+            editor.apply();
             if (registerName.isEmpty()) {
                 Toast.makeText(MapActivity.this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                showEvaluatorNameDialog(); // 이름을 입력하지 않았을 경우 다시 다이얼로그 표시
+                dialog.dismiss();
+                showEvaluatorNameDialog();
             } else {
                 Toast.makeText(MapActivity.this, "입력된 이름: " + registerName, Toast.LENGTH_SHORT).show();
             }
