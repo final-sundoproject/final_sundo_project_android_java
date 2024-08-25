@@ -81,12 +81,12 @@ public class DdActivity extends Activity {
 
             // 유효성 검사
             if (latitude < MIN_LATITUDE || latitude > MAX_LATITUDE) {
-                showToast("Latitude must be between " + MIN_LATITUDE + " and " + MAX_LATITUDE + ".");
+                showToast("위도는 " + MIN_LATITUDE + "와 " + MAX_LATITUDE + "사이여야 합니다.");
                 return;
             }
 
             if (longitude < MIN_LONGITUDE || longitude > MAX_LONGITUDE) {
-                showToast("Longitude must be between " + MIN_LONGITUDE + " and " + MAX_LONGITUDE + ".");
+                showToast("경도는 " + MIN_LONGITUDE + "와 " + MAX_LONGITUDE + "사이여야 합니다.");
                 return;
             }
 
@@ -104,7 +104,7 @@ public class DdActivity extends Activity {
             sendCoordinates(jsonObject.toString());
 
         } catch (NumberFormatException e) {
-            showToast("Please enter valid numbers.");
+            showToast("유효한 숫자를 입력하시오.");
         } catch (Exception e) {
             Log.e(TAG, "Error: ", e);
             showToast("An error occurred: " + e.getMessage());

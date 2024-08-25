@@ -265,7 +265,7 @@ public class MapActivity extends AppCompatActivity  {
             return true;
         });
 
-        Toast.makeText(MapActivity.this, "Clicked Location: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MapActivity.this, "클릭된 좌표: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
         updateShowListButtonState();
     }
 

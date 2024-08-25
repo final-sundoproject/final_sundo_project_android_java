@@ -58,7 +58,7 @@ public class GeneratorActivity extends AppCompatActivity {
         if (locationId != null) {
             Log.d("GeneratorActivity", "Received locationId: " + locationId);
         } else {
-            Log.d("GeneratorActivity", "locationId is null, continuing without it.");
+            Log.d("GeneratorActivity", "locationId is null");
         }
 
 
