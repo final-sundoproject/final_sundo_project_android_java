@@ -281,7 +281,7 @@ public class MapActivity extends AppCompatActivity  {
             coordinateSelectButton.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
         } else {
             coordinateSelectButton.setText("좌표선택");
-            coordinateSelectButton.setTextColor(getResources().getColor(android.R.color.white));
+            coordinateSelectButton.setTextColor(getResources().getColor(android.R.color.black));
         }
         Toast.makeText(this, isMarkerEnabled ? "마커 추가 모드 활성화" : "마커 추가 모드 비활성화", Toast.LENGTH_SHORT).show();
     }
