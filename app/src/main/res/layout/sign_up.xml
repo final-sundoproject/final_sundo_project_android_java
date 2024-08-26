@@ -47,6 +47,22 @@
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintWidth_percent="0.8" />
 
+    <TextView
+        android:id="@+id/emailErrorText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="이메일 형식에 맞게 입력하세요"
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/emailInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginTop="4dp"/>
+
+
+
     <EditText
         android:id="@+id/addressInput"
         android:layout_width="0dp"
@@ -71,8 +87,45 @@
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/passwordGuidelineText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="숫자, 영어, 특수문자 조합으로 8자 이상 입력하세요"
+        android:textColor="#808080"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/passwordInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addressInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginTop="4dp" />
+
+    <EditText
+        android:id="@+id/passwordConfirmInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/custom_edittext_background"
+        android:hint="비밀번호 확인"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordInput"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <TextView
+        android:id="@+id/passwordErrorText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="비밀번호가 일치하지 않습니다"
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/passwordConfirmInput"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.8" />
 
     <Button
@@ -89,7 +142,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/businessNumberInput"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginTop="4dp"/>
 
     <EditText
         android:id="@+id/passwordInput"
@@ -106,8 +160,9 @@
         app:layout_constraintTop_toBottomOf="@id/emailInput"
         app:layout_constraintWidth_percent="0.8" />
 
-    <!-- 회사명 입력창 -->
-    <EditText
+
+    <LinearLayout
+       <EditText
         android:id="@+id/nameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -117,14 +172,73 @@
         android:hint="회사명"
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/passwordInput"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/addressInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8">
+
+        <EditText
+            android:id="@+id/businessNumberInput1"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/custom_edittext_background"
+            android:hint="1234"
+            android:inputType="number"
+            android:maxLength="4"
+            android:padding="12dp"
+            android:textColorHint="@android:color/darker_gray"
+            app:layout_constraintWidth_percent="0.33" />
+
+        <EditText
+            android:id="@+id/businessNumberInput2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/custom_edittext_background"
+            android:hint="1234"
+            android:inputType="number"
+            android:maxLength="4"
+            android:padding="12dp"
+            android:textColorHint="@android:color/darker_gray"
+            app:layout_constraintWidth_percent="0.33" />
+
+        <EditText
+            android:id="@+id/businessNumberInput3"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_edittext_background"
+            android:hint="1234"
+            android:inputType="number"
+            android:maxLength="4"
+            android:padding="12dp"
+            android:textColorHint="@android:color/darker_gray"
+            app:layout_constraintWidth_percent="0.33" />
+    </LinearLayout>
 
     <!-- 회사 주소 입력창 -->
 
     <!-- 사업자 등록 번호 입력창 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signUpButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@android:color/transparent"
+        android:padding="12dp"
+        android:text="회원가입"
+        android:textColor="#40895B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:cornerRadius="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/businessNumberLayout"
+        app:layout_constraintWidth_percent="0.8"
+        app:strokeColor="#40895B"
+        app:strokeWidth="3dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

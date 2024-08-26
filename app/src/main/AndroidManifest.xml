@@ -39,6 +39,9 @@
         <activity android:name=".login.PasswordResetActivity" />
         <activity android:name=".regulatedArea.RegulatedArea" />
         <activity android:name=".evaluation.ArImageActivity" />
+        <activity android:name=".TermsActivity" />
+
+
 
         <activity
             android:name=".compass.CompassActivity"
