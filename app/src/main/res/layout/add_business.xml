@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D4F1D4"
+    android:background="@drawable/wind_background3"
     android:padding="16dp">
 
     <include
@@ -59,25 +59,26 @@
         android:orientation="horizontal">
 
         <!-- 사업 추가 버튼 -->
+
+        <!-- 사업 삭제 버튼 -->
         <Button
             android:id="@+id/addProjectButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:backgroundTint="#40895B"
+            android:backgroundTint="#874CAEFA"
             android:padding="10dp"
             android:text="사업 추가"
             android:textColor="@android:color/white" />
 
-        <!-- 사업 삭제 버튼 -->
         <Button
             android:id="@+id/deleteProjectButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:backgroundTint="#40895B"
+            android:backgroundTint="#874CAEFA"
             android:padding="10dp"
             android:text="사업 삭제"
             android:textColor="@android:color/white" />

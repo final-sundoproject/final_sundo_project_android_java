@@ -4,41 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D4F1D4"
+    android:background="@drawable/wind_background3"
     tools:context=".login.SignUpActivity">
 
 
+    <!-- 상단바 -->
     <View
         android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:background="#40895B"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:id="@+id/headerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sign up"
+        android:text="Sign Up"
         android:textColor="#ffffff"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintHorizontal_bias="0.134"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/header"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.484" />
 
     <EditText
         android:id="@+id/emailInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/custom_edittext_background"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_edittext"
         android:hint="이메일"
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
@@ -64,21 +64,29 @@
 
 
     <EditText
-        android:id="@+id/passwordInput"
+        android:id="@+id/addressInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/custom_edittext_background"
-        android:hint="비밀번호"
-        android:inputType="textPassword"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="회사 주소"
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/emailInput"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameInput"
         app:layout_constraintWidth_percent="0.8" />
 
+    <EditText
+        android:id="@+id/businessNumberInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="사업자 등록 번호"
+        android:padding="12dp"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
     <TextView
         android:id="@+id/passwordGuidelineText"
         android:layout_width="0dp"
@@ -118,50 +126,52 @@
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/passwordConfirmInput"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#874CAEFA"
+        android:padding="12dp"
+        android:text="회 원 가 입"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/businessNumberInput"
         app:layout_constraintWidth_percent="0.8"
         android:layout_marginTop="4dp"/>
 
-
-
-    <!-- 회사 주소 입력창 -->
-
     <EditText
+        android:id="@+id/passwordInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="비밀번호"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailInput"
+        app:layout_constraintWidth_percent="0.8" />
+
+
+    <LinearLayout
+       <EditText
         android:id="@+id/nameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
-        android:background="@drawable/custom_edittext_background"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_edittext"
         android:hint="회사명"
         android:padding="12dp"
         android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordInput"
-        app:layout_constraintWidth_percent="0.8" />
-
-    <EditText
-        android:id="@+id/addressInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/custom_edittext_background"
-        android:hint="회사 주소"
-        android:padding="12dp"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/nameInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8" />
-
-    <!-- 사업자 등록 번호 입력창 -->
-    <LinearLayout
-        android:id="@+id/businessNumberLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/addressInput"
         app:layout_constraintStart_toStartOf="parent"
@@ -207,6 +217,9 @@
             app:layout_constraintWidth_percent="0.33" />
     </LinearLayout>
 
+    <!-- 회사 주소 입력창 -->
+
+    <!-- 사업자 등록 번호 입력창 -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signUpButton"
         android:layout_width="0dp"

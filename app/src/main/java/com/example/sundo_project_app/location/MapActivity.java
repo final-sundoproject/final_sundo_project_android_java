@@ -62,7 +62,7 @@ public class MapActivity extends AppCompatActivity  {
     private Button btnRedulated;// 규제지역 버튼
     private List<Marker> markers; // 사용자가 추가한 마커 리스트
     private List<Marker> gpsMarkers; // GPS로 추가한 마커 리스트
-    private boolean isFollowingLocation = false; // 사용자에 의해 화면이 위치를 따라갈지 결정
+    private boolean isFollowingLocation = false;
 
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
@@ -392,7 +392,7 @@ public class MapActivity extends AppCompatActivity  {
             return true;
         });
 
-        Toast.makeText(MapActivity.this, "Clicked Location: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MapActivity.this, "클릭된 좌표: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
         updateShowListButtonState();
     }
 
@@ -408,7 +408,7 @@ public class MapActivity extends AppCompatActivity  {
             coordinateSelectButton.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
         } else {
             coordinateSelectButton.setText("좌표선택");
-            coordinateSelectButton.setTextColor(getResources().getColor(android.R.color.white));
+            coordinateSelectButton.setTextColor(getResources().getColor(android.R.color.black));
         }
         Toast.makeText(this, isMarkerEnabled ? "마커 추가 모드 활성화" : "마커 추가 모드 비활성화", Toast.LENGTH_SHORT).show();
     }
@@ -440,6 +440,7 @@ public class MapActivity extends AppCompatActivity  {
 
         if (isFollowingLocation) {
             naverMap.setCameraPosition(new CameraPosition(latLng, 15));
+            isFollowingLocation = false; // 카메라를 한 번 이동한 후 플래그를 false로 설정
         }
 
         // 기존의 GPS 마커가 있으면 삭제

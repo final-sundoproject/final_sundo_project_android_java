@@ -112,11 +112,11 @@ public class DmsActivity extends AppCompatActivity {
 
             // 방향 값 검증 (N/S, E/W)
             if (!latitudeDirection.equals("N") && !latitudeDirection.equals("S")) {
-                throw new IllegalArgumentException("Invalid latitude direction. Use 'N' or 'S'.");
+                throw new IllegalArgumentException("잘못된 위도 방향입니다. 'N' 또는 'S'를 사용하시오.");
             }
 
             if (!longitudeDirection.equals("E") && !longitudeDirection.equals("W")) {
-                throw new IllegalArgumentException("Invalid longitude direction. Use 'E' or 'W'.");
+                throw new IllegalArgumentException("잘못된 위도 방향입니다. 'E' 또는 'W'를 사용하시오.");
             }
 
             // 서버로 전송할 데이터 생성
@@ -134,7 +134,7 @@ public class DmsActivity extends AppCompatActivity {
             if (projectId != null && !projectId.isEmpty()) {
                 jsonObject.put("projectId", projectId);
             } else {
-                Log.e(TAG, "projectId is null or empty");
+                Log.e(TAG, "projectId is null");
             }
 
             // 서버로 데이터 전송
