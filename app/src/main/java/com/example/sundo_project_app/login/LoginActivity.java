@@ -12,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.sundo_project_app.R;
 import com.example.sundo_project_app.project.AddbusinessActivity;
+import com.example.sundo_project_app.utill.TermsDialogFragment;
 import com.example.sundo_project_app.utill.UrlManager;
 
 import org.json.JSONException;
@@ -58,6 +60,11 @@ public class LoginActivity extends AppCompatActivity {
         findEmailLink = findViewById(R.id.findEmailLink);
         findPasswordLink = findViewById(R.id.findPasswordLink);
 
+        if (autoLoginCheckbox == null) {
+            Log.e("LoginActivity", "autoLogin이 체크 되지 않았습니다.");
+            return;
+        }
+
         checkAutoLogin();
 
         loginButton.setOnClickListener(view -> {
@@ -71,20 +78,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signUpButton.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-            startActivity(intent);
-        });
+        signUpButton.setOnClickListener(view -> showTermsDialog());
 
         findEmailLink.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, EmailFindActivity.class);
             startActivity(intent);
         });
-
         findPasswordLink.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, PasswordFindActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void showTermsDialog() {
+        TermsDialogFragment dialog = new TermsDialogFragment();
+        dialog.setOnTermsAcceptedListener(() -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+            startActivity(intent);
+        });
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        dialog.show(fragmentManager, "termsDialog");
     }
 
     private void login(String email, String password) {
@@ -114,11 +128,11 @@ public class LoginActivity extends AppCompatActivity {
                     long companyCode = extractCompanyCodeFromResponse(responseBody);
 
                     if (autoLoginCheckbox.isChecked()) {
-                        saveToken(token, companyName);
+                        saveToken(token, companyName, companyCode);
                     }
 
                     runOnUiThread(() -> {
-                        saveToken(token,companyName);
+                        saveToken(token,companyName, companyCode);
                         Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, AddbusinessActivity.class);
                         intent.putExtra("token", token);
@@ -135,11 +149,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void saveToken(String token, String companyName) {
+    private void saveToken(String token, String companyName, long companyCode) {
         SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
         editor.putString("companyName", companyName);
+        editor.putLong("companyCode", companyCode);
         editor.putBoolean("auto_login", autoLoginCheckbox.isChecked()); // 자동 로그인 체크박스 상태 저장
         editor.apply();
         Log.d("SaveToken", "Token saved: " + token);
@@ -152,16 +167,22 @@ public class LoginActivity extends AppCompatActivity {
         String token = sharedPreferences.getString("token", null);
         long storedCompanyCode = sharedPreferences.getLong("companyCode", -1);
 
+        Log.d("auotoLOgin : {}" , String.valueOf(autoLogin));
+        Log.d("token : {}" , String.valueOf(token));
+        Log.d("storedCompanyCode : {}" , String.valueOf(storedCompanyCode));
+
         if (autoLogin && token != null && storedCompanyCode != -1) {
             validateToken(token, storedCompanyCode);
         } else {
+            if (autoLoginCheckbox != null) {
+                autoLoginCheckbox.setChecked(autoLogin); // 자동 로그인 체크박스 상태 설정
+            }
             findViewById(R.id.emailInput).setVisibility(View.VISIBLE);
             findViewById(R.id.passwordInput).setVisibility(View.VISIBLE);
             findViewById(R.id.autoLoginCheckbox).setVisibility(View.VISIBLE);
             findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
             findViewById(R.id.signupButton).setVisibility(View.VISIBLE);
             findViewById(R.id.findEmailLink).setVisibility(View.VISIBLE);
-            autoLoginCheckbox.setChecked(autoLogin); // 자동 로그인 체크박스 상태 설정
         }
     }
 

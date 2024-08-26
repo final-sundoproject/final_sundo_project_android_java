@@ -2,14 +2,16 @@ package com.example.sundo_project_app.location;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,27 +24,31 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import com.example.sundo_project_app.R;
-import com.example.sundo_project_app.evaluation.EvaluationActivity;
 import com.example.sundo_project_app.evaluation.EvaluationDialogFragment;
 import com.example.sundo_project_app.project.model.Project;
-import com.example.sundo_project_app.regulatedArea.RegulatedArea;
-import com.example.sundo_project_app.utill.KoreanInputFilter;
-import com.example.sundo_project_app.utill.toolBarActivity;
+import com.example.sundo_project_app.regulatedArea.CoordinateConverter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.geometry.LatLngBounds;
 import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.overlay.GroundOverlay;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.OverlayImage;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,18 +77,32 @@ public class MapActivity extends AppCompatActivity  {
     private Project currentProject;
     private String registerName;
 
+    private boolean isRegulatedAreaVisible = false;
+    private static final String TAG = "RegulatedArea";
+    private static final String BASE_WMS_URL = "https://apis.data.go.kr/1192000/apVhdService_OpzFh/getOpnOpzFhWMS";
+    private static final String SERVICE_KEY = "xyigcn2H+16RENHs6SNbyOXjPjW0t0Tastu/ePEl3PW6jMKcyrxrFErPO4Rzc+GgV2G44DvWYE/HGIeUhEIxCw==";
+    private GroundOverlay regulatedAreaOverlay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
 
-        showEvaluatorNameDialog(); // 평가자 이름 입력 대화 상자 표시
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        registerName = sharedPreferences.getString("evaluatorName", "");
+
+        if (registerName.isEmpty()) {
+            showEvaluatorNameDialog();
+        }
+
         initializeViews();
         initializeLocationServices();
         retrieveProjectData();
         setupButtonListeners();
         setupMapFragment();
     }
+
+
 
     private void initializeViews() {
         coordinateSelectButton = findViewById(R.id.coordinateSelect);
@@ -96,6 +116,78 @@ public class MapActivity extends AppCompatActivity  {
         updateShowListButtonState();
     }
 
+
+
+
+    private String createWMSUrl(double minLon, double minLat, double maxLon, double maxLat, int width, int height) {
+        try {
+            String encodedServiceKey = URLEncoder.encode(SERVICE_KEY, "UTF-8");
+            return String.format("%s?serviceKey=%s&srs=EPSG:4326&bbox=%f,%f,%f,%f&width=%d&height=%d",
+                    BASE_WMS_URL, encodedServiceKey, minLon, minLat, maxLon, maxLat, width, height);
+        } catch (Exception e) {
+            Log.e(TAG, "Error encoding service key: " + e.getMessage());
+            return "";
+        }
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap bitmap = null;
+            try {
+                URL imageUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                bitmap = BitmapFactory.decodeStream(input);
+                Log.d(TAG, "Image downloaded successfully.");
+            } catch (Exception e) {
+                Log.e(TAG, "Error downloading image: " + e.getMessage());
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            if (result != null) {
+                addWMSOverlay(result);
+            } else {
+                Log.e(TAG, "Failed to download image.");
+            }
+        }
+    }
+    private void moveToKorea() {
+        if (naverMap != null) {
+            LatLng koreaCenter = new LatLng(36.5, 127.5);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(koreaCenter, 5);
+            naverMap.moveCamera(cameraUpdate);
+            Log.d(TAG, "Camera moved to Korea center.");
+        }
+    }
+
+    private void addWMSOverlay(Bitmap wmsBitmap) {
+        if (naverMap == null) {
+            Log.e(TAG, "NaverMap is not initialized.");
+            return;
+        }
+
+        LatLng southwest = new LatLng(32.9, 124.5);
+        LatLng northeast = new LatLng(38.5, 130.4);
+        LatLngBounds bounds = new LatLngBounds(southwest, northeast);
+
+        if (regulatedAreaOverlay != null) {
+            regulatedAreaOverlay.setMap(null);
+        }
+
+        regulatedAreaOverlay = new GroundOverlay();
+        regulatedAreaOverlay.setImage(OverlayImage.fromBitmap(wmsBitmap));
+        regulatedAreaOverlay.setBounds(bounds);
+        regulatedAreaOverlay.setMap(naverMap);
+
+        Log.d(TAG, "WMS overlay added to map.");
+    }
     private void updateShowListButtonState() {
         if (markers.size() >= 1) {
             btnShowList.setEnabled(true);
@@ -183,14 +275,13 @@ public class MapActivity extends AppCompatActivity  {
         });
 
         btnRedulated.setOnClickListener(v -> {
-            Log.d("EvaluationFindAllActivity", "규제지역 버튼 클릭됨");
-            Intent intent = new Intent(MapActivity.this, RegulatedArea.class);
-            startActivity(intent);
-        });
+            toggleRegulatedAreaVisibility();});
 
         btnShowList.setOnClickListener(v -> {
             Log.d("btnShowList", "평가입력 버튼 클릭됨");
-            if (markers.size() >= 1) {
+            if (markers == null || markers.isEmpty()) {
+                Toast.makeText(MapActivity.this, "좌표입력을 먼저 진행해주세요", Toast.LENGTH_SHORT).show();
+            } else if (markers.size() >= 1) {
                 showEvaluationPromptDialog(); // 모달 창을 띄우는 메서드 호출
             } else {
                 Toast.makeText(MapActivity.this, "하나의 마커만 추가해 주세요.", Toast.LENGTH_SHORT).show();
@@ -215,6 +306,42 @@ public class MapActivity extends AppCompatActivity  {
         resetButton.setOnClickListener(v -> resetToInitialState());
         gpsButton.setOnClickListener(v -> startTrackingLocation());
     }
+
+    private void toggleRegulatedAreaVisibility() {
+        if (naverMap != null) {
+            if (isRegulatedAreaVisible) {
+                // 규제 지역 숨기기
+                if (regulatedAreaOverlay != null) {
+                    regulatedAreaOverlay.setMap(null); // 지도에서 제거
+                    regulatedAreaOverlay = null; // 변수 초기화
+                }
+                isRegulatedAreaVisible = false;
+                btnRedulated.setText("규제지역");
+                LatLng koreaCenter = new LatLng(37.5706, 126.9897);
+                CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(koreaCenter,13);
+                naverMap.moveCamera(cameraUpdate);
+                Toast.makeText(MapActivity.this, "규제지역 숨김", Toast.LENGTH_SHORT).show();
+            } else {
+                // 규제 지역 보이기
+                moveToKorea();
+                double minX = 718918.25;
+                double minY = 1433106.875;
+                double maxX = 1249928.75;
+                double maxY = 2071446.875;
+                double[] wgs84Bounds = CoordinateConverter.convertEPSG5179ToWGS84(minX, minY, maxX, maxY);
+
+                String wmsUrl = createWMSUrl(wgs84Bounds[0], wgs84Bounds[1], wgs84Bounds[2], wgs84Bounds[3], 400, 654);
+                new DownloadImageTask().execute(wmsUrl);
+                isRegulatedAreaVisible = true;
+                btnRedulated.setText("규제지역 숨기기");
+                Toast.makeText(MapActivity.this, "규제지역 표시", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(MapActivity.this, "지도가 초기화되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private void showEvaluationPromptDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -414,9 +541,14 @@ public class MapActivity extends AppCompatActivity  {
 
         builder.setPositiveButton("확인", (dialog, which) -> {
             registerName = input.getText().toString();
+            SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("evaluatorName", registerName);
+            editor.apply();
             if (registerName.isEmpty()) {
                 Toast.makeText(MapActivity.this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                showEvaluatorNameDialog(); // 이름을 입력하지 않았을 경우 다시 다이얼로그 표시
+                dialog.dismiss();
+                showEvaluatorNameDialog();
             } else {
                 Toast.makeText(MapActivity.this, "입력된 이름: " + registerName, Toast.LENGTH_SHORT).show();
             }
