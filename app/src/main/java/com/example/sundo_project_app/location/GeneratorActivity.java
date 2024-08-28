@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.compass.CompassActivity;
 import com.example.sundo_project_app.evaluation.EvaluationActivity;
 
 import com.example.sundo_project_app.project.model.Project;
@@ -157,7 +158,7 @@ public class GeneratorActivity extends AppCompatActivity {
 
 
     private void startEvaluationActivity(String generatorType, double directionAngle, String locationId, Serializable currentProject, String registerName) {
-        Intent intent = new Intent(GeneratorActivity.this, EvaluationActivity.class);
+        Intent intent = new Intent(GeneratorActivity.this, CompassActivity.class);
         intent.putExtra("generatorType", generatorType);
         intent.putExtra("directionAngle", directionAngle);
         intent.putExtra("locationId", locationId);

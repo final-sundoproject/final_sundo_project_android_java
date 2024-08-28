@@ -1,11 +1,16 @@
 package com.example.sundo_project_app.compass;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -14,9 +19,18 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sundo_project_app.R;
+import com.example.sundo_project_app.evaluation.EvaluationActivity;
+import com.example.sundo_project_app.location.MapActivity;
+
+import android.content.Intent;
+import android.provider.MediaStore;
+import androidx.annotation.Nullable;
+
+import java.io.Serializable;
 
 public class CompassActivity extends AppCompatActivity implements SensorEventListener {
 
+    private static final int CAMERA_REQUEST_CODE = 100;
     private ImageView compassImage;
     private TextView azimuthText;
     private SensorManager sensorManager;
@@ -96,7 +110,45 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
                 currentAzimuth = -azimuth;
 
                 azimuthText.setText("Azimuth: " + Math.round(azimuth));
+
+                // 방위각이 0도에 가까워지면 카메라 실행
+                if (Math.round(azimuth) == 0) {
+                    // 카메라 앱 실행
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                    }
+                }
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            Intent evaluationIntent = new Intent(this, EvaluationActivity.class);
+
+
+
+            Serializable currentProject = getIntent().getSerializableExtra("currentProject");
+
+            Log.d(TAG, "currentProject: " + currentProject);
+
+            evaluationIntent.putExtra("generatorType", getIntent().getStringExtra("generatorType"));
+            evaluationIntent.putExtra("directionAngle",  getIntent().getDoubleExtra("directionAngle", 0.0));
+            evaluationIntent.putExtra("locationId", getIntent().getStringExtra("locationId"));
+
+            evaluationIntent.putExtra("currentProject", getIntent().getSerializableExtra("currentProject"));
+            evaluationIntent.putExtra("registerName", getIntent().getStringExtra("registerName"));
+            Log.d("evaluationIntent: {}", String.valueOf(evaluationIntent));
+            startActivity(evaluationIntent);
+        } else if (resultCode == RESULT_CANCELED) {
+            // 사진 찍기를 취소한 경우
+            Intent mapIntent = new Intent(this, MapActivity.class);
+            startActivity(mapIntent);
         }
     }
 
