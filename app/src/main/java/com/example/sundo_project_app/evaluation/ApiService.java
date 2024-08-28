@@ -12,8 +12,8 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    @GET("evaluation/foundAll")
-    Call<ResponseBody> getAllEvaluations();
+    @GET("evaluation/foundAll/{companyCode}")
+    Call<ResponseBody> getAllEvaluations(@Path("companyCode") long companyCode);
 
     @Multipart
     @POST("evaluation")

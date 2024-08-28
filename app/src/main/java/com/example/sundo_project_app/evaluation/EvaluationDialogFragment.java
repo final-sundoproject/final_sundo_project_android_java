@@ -32,6 +32,7 @@ public class EvaluationDialogFragment extends DialogFragment {
 
     private List<Evaluation> evaluationList = new ArrayList<>();
     private EvaluationAdapter evaluationAdapter;
+    private long companyCode;
 
     @NonNull
     @Override
@@ -42,7 +43,13 @@ public class EvaluationDialogFragment extends DialogFragment {
         evaluationAdapter = new EvaluationAdapter(getContext(), evaluationList);
         recyclerView.setAdapter(evaluationAdapter);
 
-        fetchDataAndUpdateRecyclerView();
+
+        if (getArguments() != null) {
+            companyCode = getArguments().getLong("companyCode", 0);
+            Log.d("get companyCode fragment: {}", String.valueOf(companyCode));
+            fetchDataAndUpdateRecyclerView();
+
+        }
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle("평가리스트")
@@ -63,8 +70,8 @@ public class EvaluationDialogFragment extends DialogFragment {
                 .build();
 
         ApiService apiService = retrofit.create(ApiService.class);
-
-        Call<ResponseBody> call = apiService.getAllEvaluations();
+        Log.d("dialogFragment companyCode: {}", String.valueOf(companyCode));
+        Call<ResponseBody> call = apiService.getAllEvaluations(companyCode);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -271,7 +271,9 @@ public class MapActivity extends AppCompatActivity  {
     private void setupButtonListeners() {
         btnShowDialog.setOnClickListener(v -> {
             Log.d("EvaluationFindAllActivity", "평가리스트 버튼 클릭됨");
-            showEvaluationDialog();
+            Long companyCode = currentProject.getCompanyCode();
+            Log.d("companyCode list click : {}", String.valueOf(companyCode));
+            showEvaluationDialog(companyCode);
         });
 
         btnRedulated.setOnClickListener(v -> {
@@ -396,8 +398,11 @@ public class MapActivity extends AppCompatActivity  {
         updateShowListButtonState();
     }
 
-    private void showEvaluationDialog() {
+    private void showEvaluationDialog(long companyCode) {
         EvaluationDialogFragment dialog = new EvaluationDialogFragment();
+        Bundle args = new Bundle();
+        args.putLong("companyCode", companyCode);
+        dialog.setArguments(args);
         dialog.show(getSupportFragmentManager(), "EvaluationDialog");
     }
 

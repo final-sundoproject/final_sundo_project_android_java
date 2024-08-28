@@ -57,6 +57,7 @@ public class EvaluationActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1; // 요청 코드
     private static final int REQUEST_PERMISSIONS = 2; // 권한 요청 코드
     private Uri imageUri; // 선택한 이미지 URI
+    private Long companyCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,8 @@ public class EvaluationActivity extends AppCompatActivity {
         locationId = intent.getStringExtra("locationId");
         Project currentProject = (Project) intent.getSerializableExtra("currentProject");
         String registerName = intent.getStringExtra("registerName");
+
+         companyCode = currentProject.getCompanyCode();
 
         Log.d("locationId: {}", String.valueOf(locationId));
         Log.d("currentProject: {}", String.valueOf(currentProject));
@@ -245,6 +248,7 @@ public class EvaluationActivity extends AppCompatActivity {
                     addFormField(request, "scenery", String.valueOf(score3));
                     addFormField(request, "waterDepth", String.valueOf(score4));
                     addFormField(request, "locationId", locationId);
+                    addFormField(request, "companyCode", String.valueOf(companyCode));
 
                     // 끝 부분의 바운더리 추가
                     request.writeBytes("--" + BOUNDARY + "--" + LINE_FEED);
